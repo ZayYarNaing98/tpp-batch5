@@ -46,3 +46,4 @@ Route::prefix('/tpp')->group(function(){
 // });
 
 Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');

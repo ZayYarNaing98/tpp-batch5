@@ -8,11 +8,7 @@
 </head>
 <body>
     <div>
-        <h1>Category List</h1>
-        <a href="{{ route('categories.create') }}">+ Create</a>
-        @foreach ($categories as $data)
-            <p>{{ $data['id'] }} : {{ $data['name'] }}</p>
-        @endforeach
+        <h1>This is Category Create</h1>
     </div>
 </body>
 </html>
