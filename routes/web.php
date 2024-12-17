@@ -45,5 +45,7 @@ Route::prefix('/tpp')->group(function(){
 //     return view('categories.index');
 // });
 
-Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
+Route::post('/categories/{id}', [CategoryController::class, 'delete'])->name('categories.delete');
