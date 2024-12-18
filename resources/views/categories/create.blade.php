@@ -9,6 +9,11 @@
 <body>
     <div>
         <h1>This is Category Create</h1>
+        <form action="{{ route('categories.store') }}" method="POST">
+            @csrf
+            <input type="text" placeholder="Enter Category Name" name="name"/>
+            <button type="submit">+Create</button>
+        </form>
     </div>
 </body>
 </html>
