@@ -21,9 +21,14 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        Category::create([
-            'name' => $request->name,
+        $data = $request->validate([
+            'name' => 'required|string'
         ]);
+        // Category::create([
+        //     'name' => $request->name,
+        // ]);
+
+        Category::create($data);
 
         return redirect()->route('categories.index');
     }
