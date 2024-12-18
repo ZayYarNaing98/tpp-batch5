@@ -9,7 +9,6 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        // dd('here');
         $categories = Category::all();
 
         return view('categories.index', compact('categories'));
@@ -20,19 +19,37 @@ class CategoryController extends Controller
         return view('categories.create');
     }
 
-    public function show($id)
+    public function store(Request $request)
+    {
+        Category::create([
+            'name' => $request->name,
+        ]);
+
+        return redirect()->route('categories.index');
+    }
+
+    public function edit($id)
     {
         $category = Category::find($id);
 
-        // dd($category);
-        return view('categories.show', compact('category'));
+        return view('categories.edit', compact('category'));
+    }
+
+    public function update(Request $request)
+    {
+        $category = Category::find($request->id);
+
+        $category->update([
+            'name' => $request->name
+        ]);
+
+        return redirect()->route('categories.index');
     }
 
     public function delete($id)
     {
-        // dd($id);
         $category = Category::find($id);
-        // dd($category);
+
         $category->delete();
 
         return redirect()->route('categories.index');
