@@ -10,6 +10,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 </head>
+
 <body>
     <div class="container">
         <div class="card mt-4">
@@ -20,6 +21,10 @@
                 @csrf
                 <div class="card-body">
                     <input type="text" value="{{ $category->name }}" name="name" class="form-control card-body" />
+                </div>
+                <div class="card-body">
+                    <img src="{{ asset('categoryImages/' . $category->image) }}" alt="{{ $category->image }}"
+                        style="width: 50px; height: 50px" />
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">Update</button>
