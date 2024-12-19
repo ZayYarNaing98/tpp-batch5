@@ -24,8 +24,11 @@ class ProductController extends Controller
         $data = $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
-            'price' => 'required|integer'
+            'price' => 'required|integer',
+            'status' => 'nullable'
         ]);
+
+        $data['status'] = $request->has('status') ? true :false;
 
         Product::create($data);
 
@@ -45,6 +48,8 @@ class ProductController extends Controller
 
         $product->update([
             'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
         ]);
 
         return redirect()->route('products.index');

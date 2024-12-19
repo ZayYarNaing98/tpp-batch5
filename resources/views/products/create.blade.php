@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
+
 <body>
     <div class="container">
         @if ($errors->any())
@@ -25,9 +27,25 @@
             </div>
             <form action="{{ route('products.store') }}" method="POST">
                 @csrf
-                <input type="text" name="name" placeholder="Enter Product Name" class="form-control card-body mb-4">
-                <input type="text" name="description" placeholder="Enter Product Description" class="form-control card-body mb-4">
-                <input type="text" name="price" placeholder="Enter Product Price" class="form-control card-body mb-4">
+                <div class="card-body">
+                    <input type="text" name="name" placeholder="Enter Product Name"
+                        class="form-control mb-2">
+                </div>
+                <div class="card-body">
+                    <input type="text" name="description" placeholder="Enter Product Description"
+                        class="form-control mb-2">
+
+                </div>
+                <div class="card-body">
+                    <input type="text" name="price" placeholder="Enter Product Price"
+                        class="form-control mb-2">
+                </div>
+                <div class="card-body">
+                    <div class="form-check from-switch">
+                        <label for="status" class="form-check-label">Active Or Inactive</label>
+                        <input type="checkbox" class="form-check-input" name="status" role="switch" checked/>
+                    </div>
+                </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">+Create</button>
                     <a href="{{ route('products.index') }}" class="btn btn-secondary">Back</a>
@@ -40,4 +58,5 @@
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous">
     </script>
 </body>
+
 </html>
