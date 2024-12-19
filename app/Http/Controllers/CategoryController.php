@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Http\Request;
+use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -19,12 +20,9 @@ class CategoryController extends Controller
         return view('categories.create');
     }
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string',
-            'image' => 'nullable|image',
-        ]);
+        $data = $request->validate();
 
         if ($request->hasFile('image'))
         {
