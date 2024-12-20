@@ -5,12 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
+use App\Repositories\Category\CategoryRepositoryInterface;
 
 class CategoryController extends Controller
 {
+    protected $categoryRepository;
+    protected $categoryService;
+
+    public function __construct(CategoryRepositoryInterface $categoryRepository, CategoryService $categoryService)
+    {
+        $this->categoryRepository = $categoryRepository;
+        $this->categoryService = $categoryService;
+    }
+
     public function index()
     {
-        $categories = Category::all();
+        $categories = $this->categoryRepository->index();
 
         return view('categories.index', compact('categories'));
     }
@@ -22,7 +32,7 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
-        $data = $request->validate();
+        $data = $request->validated();
 
         if ($request->hasFile('image'))
         {
@@ -33,21 +43,21 @@ class CategoryController extends Controller
             $data = array_merge($data, ['image' => $imageName]);
         }
 
-        Category::create($data);
+        $this->categoryRepository->store($data);
 
         return redirect()->route('categories.index');
     }
 
     public function edit($id)
     {
-        $category = Category::find($id);
+        $category = $this->categoryRepository->show($id);
 
         return view('categories.edit', compact('category'));
     }
 
     public function update(Request $request)
     {
-        $category = Category::find($request->id);
+        $category = $this->categoryRepository->show($request->id);
 
         $category->update([
             'name' => $request->name
@@ -58,7 +68,7 @@ class CategoryController extends Controller
 
     public function delete($id)
     {
-        $category = Category::find($id);
+        $category = $this->categoryRepository->show($id);
 
         $category->delete();
 
