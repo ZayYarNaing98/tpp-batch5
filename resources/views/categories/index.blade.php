@@ -31,7 +31,8 @@
                         <th>{{ $data['id'] }}</th>
                         <th>{{ $data['name'] }}</th>
                         <th>
-                            <img src="{{ asset('categoryImages/'. $data->image) }}" alt="{{ $data->image }}" style="width: 50px; height: 50px"/>
+                            <img src="{{ asset('categoryImages/' . $data->image) }}" alt="{{ $data->image }}"
+                                style="width: 50px; height: 50px" />
                         </th>
                         <th class="d-flex">
                             <a href="{{ route('categories.edit', ['id' => $data['id']]) }}"

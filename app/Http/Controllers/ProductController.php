@@ -33,12 +33,20 @@ class ProductController extends Controller
             'name' => 'required|string',
             'description' => 'required|string',
             'price' => 'required|integer',
-            'status' => 'nullable'
+            'status' => 'nullable',
         ]);
 
         $data['status'] = $request->has('status') ? true :false;
 
-        Product::create($data);
+        if($request->hasFile('image'))
+        {
+            $imageName = time(). '.' . $request->image->extension();
+            $request->image->move(public_path('productImages'), $imageName);
+
+            $data = array_merge($data, ['image' => $imageName]);
+        }
+
+        $this->productRepository->store($data);
 
         return redirect()->route('products.index');
     }

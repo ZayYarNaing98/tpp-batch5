@@ -33,7 +33,7 @@
                 </div>
                 <div class="card-body">
                     <label for="image" class="form-control mb-2">IMAGE: </label>
-                    <input type="file" class="form-control" name="image"/>
+                    <input type="file" class="form-control" name="image" />
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary">
