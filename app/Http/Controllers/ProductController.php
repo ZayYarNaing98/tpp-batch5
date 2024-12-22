@@ -4,12 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Repositories\Product\ProductRepositoryInterface;
 
 class ProductController extends Controller
 {
+    protected $productRepository;
+
+    public function __construct(ProductRepositoryInterface $productRepository)
+    {
+        $this->productRepository = $productRepository;
+    }
+
     public function index()
     {
-        $products = Product::all();
+        $products = $this->productRepository->index();
 
         return view('products.index', compact('products'));
     }
@@ -37,19 +45,20 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $product = Product::find($id);
+        $product = $this->productRepository->show($id);
 
         return view('products.edit', compact('product'));
     }
 
     public function update(Request $request)
     {
-        $product = Product::find($request->id);
+        $product = $this->productRepository->show($request->id);
 
         $product->update([
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
+            'status' => $request->status  == 'on' ? 1 : 0,
         ]);
 
         return redirect()->route('products.index');
@@ -58,7 +67,7 @@ class ProductController extends Controller
 
     public function delete($id)
     {
-        $product = Product::find($id);
+        $product = $this->productRepository->show($request->id);
 
         $product->delete();
 

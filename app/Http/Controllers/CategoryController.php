@@ -10,12 +10,10 @@ use App\Repositories\Category\CategoryRepositoryInterface;
 class CategoryController extends Controller
 {
     protected $categoryRepository;
-    protected $categoryService;
 
-    public function __construct(CategoryRepositoryInterface $categoryRepository, CategoryService $categoryService)
+    public function __construct(CategoryRepositoryInterface $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
-        $this->categoryService = $categoryService;
     }
 
     public function index()
