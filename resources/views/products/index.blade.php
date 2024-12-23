@@ -22,19 +22,22 @@
                     <th class="bg-primary text-white">DESCRIPTION</th>
                     <th class="bg-primary text-white">IMAGE</th>
                     <th class="bg-primary text-white">PRICE</th>
-                    <th class="bg-primary text-white">Status</th>
+                    <th class="bg-primary text-white">CATEGORY</th>
+                    <th class="bg-primary text-white">STATUS</th>
                     <th class="bg-primary text-white">ACTION</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($products as $data)
+                {{-- {{ dd($data) }} --}}
                     <tr>
                         <th>{{ $data['id'] }}</th>
                         <th>{{ $data['name'] }}</th>
                         <th>{{ $data['description'] }}</th>
                         <th><img src="{{ asset('productImages/' . $data->image) }}" alt="{{ $data->image }}"
                                 style="width:50px; height:50px" /></th>
-                        <th>{{ $data['price'] }}</th>
+                                <th>{{ $data['price'] }}</th>
+                                <th>{{ $data['category']['name'] }}</th>
                         <th>
                             @if ($data->status === 1)
                                 <span class="text-success">Active</span>

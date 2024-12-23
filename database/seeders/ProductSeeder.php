@@ -16,30 +16,35 @@ class ProductSeeder extends Seeder
         $products = [
             [
                 'id' => 1,
+                'category_id' => 1,
                 'name' => "Product A",
                 'description' => "This is Product A",
                 'price' => 1000
             ],
             [
                 'id' => 2,
+                'category_id' => 2,
                 'name' => "Product B",
                 'description' => "This is Product B",
                 'price' => 2000
             ],
             [
                 'id' => 3,
+                'category_id' => 4,
                 'name' => "Product C",
                 'description' => "This is Product C",
                 'price' => 3000
             ],
             [
                 'id' => 4,
+                'category_id' => 3,
                 'name' => "Product D",
                 'description' => "This is Product D",
                 'price' => 4000
             ],
             [
                 'id' => 5,
+                'category_id' => 1,
                 'name' => "Product E",
                 'description' => "This is Product E",
                 'price' => 5000
