@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 
@@ -67,6 +68,7 @@ Route::post('/products/{id}/update', [ProductController::class, 'update'])->name
 
 Route::post('/products/{id}', [ProductController::class, 'delete'])->name('products.delete');
 
+Route::resource('/users', UserController::class);
 
 Auth::routes(['register' => false]);
 
