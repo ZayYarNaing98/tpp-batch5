@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Repositories\Product\ProductRepositoryInterface;
 
@@ -25,7 +26,9 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('products.create');
+        $categories = Category::get();
+
+        return view('products.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -35,6 +38,7 @@ class ProductController extends Controller
             'description' => 'required|string',
             'price' => 'required|integer',
             'status' => 'nullable',
+            'category_id' => 'nullable',
         ]);
 
         $data['status'] = $request->has('status') ? true :false;
@@ -54,9 +58,11 @@ class ProductController extends Controller
 
     public function edit($id)
     {
+        $categories = Category::all();
+
         $product = $this->productRepository->show($id);
 
-        return view('products.edit', compact('product'));
+        return view('products.edit', compact('product', 'categories'));
     }
 
     public function update(Request $request)
@@ -68,6 +74,7 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'status' => $request->status  == 'on' ? 1 : 0,
+            'category_id' => $request->category_id,
         ]);
 
         return redirect()->route('products.index');

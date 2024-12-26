@@ -17,6 +17,7 @@
                 <div class="card-header">
                     Edit Product
                 </div>
+                {{-- {{dd($product)}} --}}
                 <form action="{{ route('products.update', $product->id) }}" method="POST">
                     @csrf
                     <div class="card-body">
@@ -45,6 +46,14 @@
                             <input class="form-check-input" name="status" type="checkbox" role="switch"
                                 {{ $product->status === 1 ? 'checked' : '' }} />
                         </div>
+                    </div>
+                    <div class="card-body">
+                        <label for="category" class="form-label">Select Your Category</label>
+                        <select name="category_id" id="category_id" class="form-select">
+                            @foreach ($categories as $category)
+                                <option value="{{$category->id}}" {{ $product->category_id == $category->id ? 'selected' : "" }}>{{ $category->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <div class="card-footer">
                         <button class="btn btn-primary" type="submit">Update</button>
