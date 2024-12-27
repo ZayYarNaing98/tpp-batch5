@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
         $users = User::get();
@@ -30,13 +36,23 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $data = $request->validate([
             'name' => 'required|string',
             'email' => 'required|unique:users,email',
             'password' => 'required|confirmed',
+            'phone' => 'required',
+            'address' => 'required',
         ]);
 
-        User::create($data);
+        // User::create($data);
+        User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'phone' => $data['phone'],
+            'address' => $data['address'],
+        ]);
 
         return redirect()->route('users.index');
     }
