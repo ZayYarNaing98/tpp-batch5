@@ -2,7 +2,9 @@
 @section('content')
 <div class="container">
     <h1 class="mb-4">Product Lists</h1>
-    <a href="{{ route('products.create') }}" class="btn btn-outline-success mb-4">+ Create</a>
+    @can('productCreate')
+        <a href="{{ route('products.create') }}" class="btn btn-outline-success mb-4">+ Create</a>
+    @endcan
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -35,12 +37,16 @@
                         @endif
                     </th>
                     <th class="d-flex">
+                        @can('productEdit')
                         <a href="{{ route('products.edit', ['id' => $data->id]) }}"
-                            class="btn btn-outline-secondary me-2">Edit</a>
-                        <form action="{{ route('products.delete', $data->id) }}" method="POST">
-                            @csrf
-                            <button class="btn btn-outline-danger">Delete</button>
-                        </form>
+                                class="btn btn-outline-secondary me-2">Edit</a>
+                        @endcan
+                        @can('productDelete')
+                            <form action="{{ route('products.delete', $data->id) }}" method="POST">
+                                @csrf
+                                <button class="btn btn-outline-danger">Delete</button>
+                            </form>
+                        @endcan
                     </th>
                 </tr>
             @endforeach
