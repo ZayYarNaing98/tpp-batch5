@@ -45,22 +45,41 @@
                 @endcan
                 <li class="app-sidebar__heading">UI Components</li>
                 <li>
+                    @can('userList')
                     <a href="{{ route('users.index')}}">
                         <i class="metismenu-icon pe-7s-diamond"></i>
                         Users
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
+                    @endcan
+                    @can('roleList')
+                    <a href="{{ route('roles.index')}}">
+                        <i class="metismenu-icon pe-7s-diamond"></i>
+                        Role
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    @endcan
+                    @can('permissionList')
+                    <a href="{{ route('permissions.index')}}">
+                        <i class="metismenu-icon pe-7s-diamond"></i>
+                        Permission
+                        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+                    </a>
+                    @endcan
+                    @can('categoryList')
                     <a href="{{ route('categories.index')}}">
                         <i class="metismenu-icon pe-7s-diamond"></i>
                         Category
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
+                    @endcan
+                    @can('productList')
                     <a href="{{ route('products.index')}}">
                         <i class="metismenu-icon pe-7s-diamond"></i>
                         Product
                         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
                     </a>
-
+                    @endcan
                 </li>
             </ul>
         </div>

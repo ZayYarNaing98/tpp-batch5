@@ -35,6 +35,15 @@ class RoleAndPermissionSeeder extends Seeder
         $categoryEdit = Permission::create(['name' => 'categoryEdit']);
         $categoryDelete = Permission::create(['name' => 'categoryDelete']);
 
+        $roleList = Permission::create(['name' => 'roleList']);
+        $roleCreate = Permission::create(['name' => 'roleCreate']);
+        $roleEdit = Permission::create(['name' => 'roleEdit']);
+        $roleDelete = Permission::create(['name' => 'roleDelete']);
+
+        $permissionList = Permission::create(['name' => 'permissionList']);
+        $permissionCreate = Permission::create(['name' => 'permissionCreate']);
+        $permissionEdit = Permission::create(['name' => 'permissionEdit']);
+        $permissionDelete = Permission::create(['name' => 'permissionDelete']);
 
         $admin->givePermissionTo([
             $dashboard,
@@ -52,7 +61,17 @@ class RoleAndPermissionSeeder extends Seeder
             $productList,
             $productCreate,
             $productEdit,
-            $productDelete
+            $productDelete,
+
+            $roleList,
+            $roleCreate,
+            $roleEdit,
+            $roleDelete,
+
+            $permissionList,
+            $permissionCreate,
+            $permissionEdit,
+            $permissionDelete,
         ]);
 
         $user->givePermissionTo([
