@@ -2,25 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
+use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UserUpdateRequest;
+use App\Repositories\Role\RoleRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function __construct()
+    protected $userRepository;
+    protected $roleRepository;
+
+    public function __construct(UserRepositoryInterface $userRepository, RoleRepositoryInterface $roleRepository)
     {
         $this->middleware('auth');
+        $this->userRepository = $userRepository;
+        $this->roleRepository = $roleRepository;
     }
 
     public function index()
     {
-        $users = User::with('roles')->get();
-        // dd($users);
+        $users = $this->userRepository->index();
 
         return view('users.index', compact('users'));
     }
@@ -30,7 +36,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::get();
+        $roles = $this->roleRepository->index();
+
         return view('users.create', [
             "roles" => $roles
         ]);
@@ -39,29 +46,19 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        // dd($request->all());
-        $data = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|unique:users,email',
-            'password' => 'required|confirmed',
-            'phone' => 'required',
-            'address' => 'required',
-            'roles' => 'required',
-            'roles.*' => 'exists:roles,id',
+        $validatedData = $request->validated();
+
+        $user = $this->userRepository->store([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+            'phone' => $validatedData['phone'],
+            'address' => $validatedData['address'],
         ]);
 
-        // User::create($data);
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'phone' => $data['phone'],
-            'address' => $data['address'],
-        ]);
-
-        $user->roles()->sync($data['roles']);
+        $user->roles()->sync($validatedData['roles']);
 
         return redirect()->route('users.index');
     }
@@ -79,9 +76,9 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::with('roles')->where('id', $id)->first();
+        $roles = $this->roleRepository->index();
 
-        $roles = Role::get();
+        $user = $this->userRepository->show($id);
 
         return view('users.edit', compact('user', 'roles'));
     }
@@ -89,15 +86,11 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserUpdateRequest $request, string $id)
     {
-        dd($request->all());
-        $user = User::find($id);
-        // dd($user);
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
+        $validatedData = $request->validated();
+
+        $user = $this->userRepository->update($validatedData, $id);
 
         $user->roles()->sync($request->roles);
 
@@ -109,9 +102,7 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        $user = User::where('id', $id)->first();
-
-        $user->delete();
+        $this->userRepository->destroy($id);
 
         return redirect()->route('users.index');
     }
