@@ -50,7 +50,7 @@ class PermissionController extends Controller
      */
     public function edit(string $id)
     {
-        $permission = Permission::where('id', $id)->first();
+        $permission = Permission::with('roles')->where('id', $id)->first();
 
         return view('permissions.edit', compact('permission'));
     }

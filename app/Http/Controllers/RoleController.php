@@ -59,10 +59,9 @@ class RoleController extends Controller
     {
         $permissions = Permission::get();
 
-        $role = Role::where('id', $id)->first();
+        $role = Role::with('permissions')->where('id', $id)->first();
 
-        $rolePermissions = $role->permissions()->pluck('id')->toArray();
-        // dd($rolePermissions);
+        $rolePermissions = $role->permissions->pluck('id')->toArray();
 
         return view('roles.edit', compact('role', 'permissions', 'rolePermissions'));
 

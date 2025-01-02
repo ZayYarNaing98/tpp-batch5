@@ -2,6 +2,7 @@
 @section('content')
     <div class="container">
         <h4 class="my-4">+ User Create</h4>
+        {{-- {{ dd($hello) }} --}}
         <form action="{{ route('users.store') }}" method="POST">
             @csrf
             <div class="card-body">
@@ -26,13 +27,21 @@
                 </div>
                 <div class="form-group">
                     <label for="password">Password:</label>
-                    <input type="text" name="password" class="form-control" id="password"
+                    <input type="password" name="password" class="form-control" id="password"
                         placeholder="Enter Your Password" />
                 </div>
                 <div class="form-group">
                     <label for="password_confirmation">Confirm Password:</label>
-                    <input type="text" name="password_confirmation" class="form-control" id="password_confirmation"
+                    <input type="password" name="password_confirmation" class="form-control" id="password_confirmation"
                         placeholder="Enter Your Password Confirmation" />
+                </div>
+                <div class="form-group">
+                    <label for="roles">Roles</label>
+                    <select name="roles[]" id="" class="form-select select">
+                        @foreach ($roles as $role)
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
             <div class="card-footer">

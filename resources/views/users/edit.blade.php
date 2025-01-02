@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('content')
     <div class="container">
+        {{-- {{dd($roles)}} --}}
         <h4 class="my-4">User Update</h4>
         <form action="{{ route('users.update', $user->id) }}" method="POST">
             {{ method_field('PATCH') }}
@@ -25,6 +26,14 @@
                     <label for="address">Address:</label>
                     <input type="text" name="address" class="form-control" id="address"
                         placeholder="Enter Your Address" value="{{ $user->address }}"/>
+                </div>
+                <div class="form-group">
+                    <label for="roles">Roles</label>
+                    <select name="roles[]" class="form-select select">
+                        @foreach ($roles as $role)
+                            <option value="{{ $role->id }}" {{ $user->roles->contains($role->id) ? 'selected' : "" }}>{{ $role->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
             <div class="card-footer">

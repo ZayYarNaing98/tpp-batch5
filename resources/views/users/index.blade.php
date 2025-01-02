@@ -12,6 +12,7 @@
                 <th class="bg-primary text-white">EMAIL</th>
                 <th class="bg-primary text-white">ADDRESS</th>
                 <th class="bg-primary text-white">PHONE</th>
+                <th class="bg-primary text-white">ROLE</th>
                 <th class="bg-primary text-white">ACTION</th>
             </thead>
             <tbody>
@@ -22,6 +23,11 @@
                         <th>{{ $data['email'] }}</th>
                         <th>{{ $data['address'] }}</th>
                         <th>{{ $data['phone'] }}</th>
+                        <th>
+                            @foreach ($data->roles as $role)
+                                <span class="badge badge-info">{{ $role->name }}</span>
+                            @endforeach
+                        </th>
                         <th class="d-flex">
                             @can('userEdit')
                             <a href="{{ route('users.edit', ['user' => $data->id]) }}"

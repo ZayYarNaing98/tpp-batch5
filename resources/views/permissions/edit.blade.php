@@ -5,11 +5,22 @@
             <div class="card-header">
                 Edit Permission
             </div>
+            {{-- {{ dd($permission) }} --}}
             <form action="{{ route('permissions.update', $permission->id) }}" method="POST">
                 @csrf
                 {{ method_field('PUT') }}
                 <div class="card-body">
                     <input type="text" name="name" value="{{ $permission->name }}" class=" form-control card-body" />
+                </div>
+                <div class="card-body">
+                    <label for="roles">Assigned Roles</label>
+                    <ul>
+                        @foreach ($permission->roles as $role)
+                            <li>
+                                {{ $role->name }}
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-primary me-2">Update</button>
