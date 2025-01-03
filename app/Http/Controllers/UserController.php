@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Services\User\UserService;
@@ -80,11 +79,9 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        dd($this->username());
         $roles = $this->roleRepository->index();
 
         $user = $this->userRepository->show($id);
-        // $user = User::with('roles')->where('id', $id)->value();
 
         return view('users.edit', compact('user', 'roles'));
     }

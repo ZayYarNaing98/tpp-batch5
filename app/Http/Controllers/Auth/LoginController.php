@@ -43,15 +43,16 @@ class LoginController extends Controller
 
     protected function attemptLogin(Request $request)
     {
-        $credentials = $request->only($this->username(), 'password');
+        $credentials = $request->only('email', 'password');
 
-        $user = User::where($this->username(), $credentials[$this->username()])
+        $user = User::where('email', $credentials['email'])
             ->where('status', 0)
             ->first();
 
         if ($user) {
             throw ValidationException::withMessages([
-                $this->username() => ['Your account is inactive. Please contact administrator.'],
+                'email' => ['Your account is inactive. Please contact administrator.'],
+                'password' => ['Your account is inactive'],
             ]);
         }
 
