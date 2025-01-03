@@ -3,7 +3,7 @@
 namespace App\Repositories\Permission;
 
 use Spatie\Permission\Models\Permission;
-use App\Repositories\User\UserRepositoryInterface;
+use App\Repositories\User\PermissionRepositoryInterface;
 
 class PermissionRepository implements PermissionRepositoryInterface
 {

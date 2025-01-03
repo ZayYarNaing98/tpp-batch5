@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Repositories\Role\RoleRepositoryInterface;
+use App\Repositories\Permission\PermissionRepositoryInterface;
 
 class RoleController extends Controller
 {
