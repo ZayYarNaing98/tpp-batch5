@@ -38,6 +38,8 @@ Route::post('/products/{id}', [ProductController::class, 'delete'])->name('produ
 
 Route::resource('/users', UserController::class);
 
+Route::post('/users/{id}/status', [UserController::class, 'status'])->name('users.status');
+
 Route::resource('roles', RoleController::class);
 
 Route::resource('permissions', PermissionController::class);

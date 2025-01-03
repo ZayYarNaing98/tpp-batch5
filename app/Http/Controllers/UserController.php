@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
@@ -103,6 +104,17 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         $this->userRepository->destroy($id);
+
+        return redirect()->route('users.index');
+    }
+
+    public function status($id)
+    {
+        $user = User::where('id', $id)->first();
+
+        $user->status = $user->status === 1 ? 0 : 1;
+
+        $user->save();
 
         return redirect()->route('users.index');
     }

@@ -12,17 +12,27 @@
                 <th class="bg-primary text-white">EMAIL</th>
                 <th class="bg-primary text-white">ADDRESS</th>
                 <th class="bg-primary text-white">PHONE</th>
+                <th class="bg-primary text-white">STATUS</th>
                 <th class="bg-primary text-white">ROLE</th>
                 <th class="bg-primary text-white">ACTION</th>
             </thead>
             <tbody>
                 @foreach ($users as $data)
+                {{-- {{dd($data)}} --}}
                     <tr>
                         <th>{{ $data['id'] }}</th>
                         <th>{{ $data['name'] }}</th>
                         <th>{{ $data['email'] }}</th>
                         <th>{{ $data['address'] }}</th>
                         <th>{{ $data['phone'] }}</th>
+                        <th>
+                            <form action="{{ route('users.status', ['id' => $data->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-sm {{ $data->status === 1 ? 'btn-success' : 'btn-danger' }}">
+                                    {{ $data->status === 1 ? 'Active' : 'Inactive' }}
+                                </button>
+                            </form>
+                        </th>
                         <th>
                             @foreach ($data->roles as $role)
                                 <span class="badge badge-info">{{ $role->name }}</span>
