@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use App\Services\User\UserService;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserUpdateRequest;
 use App\Repositories\Role\RoleRepositoryInterface;
@@ -17,12 +17,14 @@ class UserController extends Controller
      */
     protected $userRepository;
     protected $roleRepository;
+    protected $userService;
 
-    public function __construct(UserRepositoryInterface $userRepository, RoleRepositoryInterface $roleRepository)
+    public function __construct(UserRepositoryInterface $userRepository, RoleRepositoryInterface $roleRepository, UserService $userService)
     {
         $this->middleware('auth');
         $this->userRepository = $userRepository;
         $this->roleRepository = $roleRepository;
+        $this->userService = $userService;
     }
 
     public function index()
@@ -110,11 +112,7 @@ class UserController extends Controller
 
     public function status($id)
     {
-        $user = User::where('id', $id)->first();
-
-        $user->status = $user->status === 1 ? 0 : 1;
-
-        $user->save();
+        $this->userService->status($id);
 
         return redirect()->route('users.index');
     }
