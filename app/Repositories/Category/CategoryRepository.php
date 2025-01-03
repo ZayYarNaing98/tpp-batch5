@@ -8,9 +8,7 @@ class CategoryRepository implements CategoryRepositoryInterface
 {
     public function index()
     {
-        $categories = Category::all();
-
-        return $categories;
+        return Category::get();
     }
 
     public function store($data)

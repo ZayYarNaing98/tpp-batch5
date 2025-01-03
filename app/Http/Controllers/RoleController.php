@@ -11,10 +11,18 @@ class RoleController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    protected $roleRepository;
+    protected $permissionRepository;
+    public function __construct(RoleRepositoryInterface $roleRepository, PermissionRepositoryInterface $permissionRepository)
+    {
+        $this->roleRepository = $roleRepository;
+        $this->permissionRepository = $permissionRepository;
+    }
+
     public function index()
     {
-        $roles = Role::get();
-
+        $roles = $this->roleRepository->index();
 
         return view('roles.index', compact('roles'));
     }
@@ -24,7 +32,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permissions = Permission::get();
+        $permissions = $this->permissionRepository->index();
 
         return view('roles.create', compact('permissions'));
     }
@@ -34,7 +42,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $role = Role::create([
+        $role = $this->roleRepository->store([
             'name' => $request->name,
         ]);
 
@@ -57,7 +65,7 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
-        $permissions = Permission::get();
+        $permissions = $this->permissionRepository->index();
 
         $role = Role::with('permissions')->where('id', $id)->first();
 

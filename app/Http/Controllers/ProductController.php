@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Repositories\Product\ProductRepositoryInterface;
+use App\Repositories\Category\CategoryRepositoryInterface;
 
 class ProductController extends Controller
 {
     protected $productRepository;
+    protected $categoryRepository;
 
-    public function __construct(ProductRepositoryInterface $productRepository)
+    public function __construct(ProductRepositoryInterface $productRepository, CategoryRepositoryInterface $categoryRepository)
     {
         $this->middleware('auth');
         $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     public function index()
@@ -26,7 +27,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        $categories = Category::get();
+        $categories = $this->categoryRepository->index();
 
         return view('products.create', compact('categories'));
     }
@@ -58,7 +59,7 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        $categories = Category::all();
+        $categories = $this->categoryRepository->index();
 
         $product = $this->productRepository->show($id);
 
