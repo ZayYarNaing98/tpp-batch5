@@ -17,21 +17,11 @@ class RoleRepository implements RoleRepositoryInterface
         $role = Role::create($validatedData);
 
         return $role;
-
     }
 
     public function show($id)
     {
         return Role::with('permissions')->where('id', $id)->first();
-    }
-
-    public function update($validatedData, $id)
-    {
-        $role = Role::with('permissions')->where('id', $id)->first();
-
-        $role->permissions()->sync($validatedData['permissions']);
-
-        return $role->update($validatedData);
     }
 
     public function destroy($id)

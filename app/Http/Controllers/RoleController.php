@@ -82,11 +82,15 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(RoleUpdateRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
-        $validatedData = $request->validated();
+        $role = $this->roleRepository->show($id);
 
-        $this->roleRepository->update($validatedData, $id);
+        $role->update([
+            'name' => $request->name,
+        ]);
+
+        $role->permissions()->sync($request['permissions']);
 
         return redirect()->route('roles.index');
     }
