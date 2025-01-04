@@ -16,8 +16,6 @@ class RoleRepository implements RoleRepositoryInterface
     {
         $role = Role::create($validatedData);
 
-        $role->permissions()->sync($validatedData['permission']);
-
         return $role;
 
     }
