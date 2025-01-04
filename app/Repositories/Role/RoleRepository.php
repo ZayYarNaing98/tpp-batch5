@@ -14,7 +14,12 @@ class RoleRepository implements RoleRepositoryInterface
 
     public function store($validatedData)
     {
-        return Role::create($validatedData);
+        $role = Role::create($validatedData);
+
+        $role->permissions()->sync($validatedData['permission']);
+
+        return $role;
+
     }
 
     public function show($id)
@@ -26,6 +31,8 @@ class RoleRepository implements RoleRepositoryInterface
     {
         $role = Role::with('permissions')->where('id', $id)->first();
 
+        $role->permissions()->sync($validatedData['permissions']);
+
         return $role->update($validatedData);
     }
 
@@ -33,7 +40,7 @@ class RoleRepository implements RoleRepositoryInterface
     {
         $role = Role::find($id);
 
-        return role->delete();
+        return $role->delete();
     }
 
 }

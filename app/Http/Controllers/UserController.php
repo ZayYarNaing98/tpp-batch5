@@ -95,8 +95,6 @@ class UserController extends Controller
 
         $user = $this->userRepository->update($validatedData, $id);
 
-        $user->roles()->sync($request->roles);
-
         return redirect()->route('users.index');
     }
 

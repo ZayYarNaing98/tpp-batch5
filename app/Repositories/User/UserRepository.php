@@ -26,6 +26,8 @@ class UserRepository implements UserRepositoryInterface
     {
         $user = User::with('roles')->where('id', $id)->first();
 
+        $user->roles()->sync($validatedData['roles']);
+
         return $user->update($validatedData);
     }
 

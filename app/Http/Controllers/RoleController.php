@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\RoleRequest;
 use Spatie\Permission\Models\Role;
+use App\Http\Requests\RoleUpdateRequest;
 use Spatie\Permission\Models\Permission;
 use App\Repositories\Role\RoleRepositoryInterface;
 use App\Repositories\Permission\PermissionRepositoryInterface;
@@ -42,13 +44,11 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        $role = $this->roleRepository->store([
-            'name' => $request->name,
-        ]);
+        $validatedData = $request->validated();
 
-        $role->permissions()->sync($request->permission);
+        $this->roleRepository->store($validatedData);
 
         return redirect()->route('roles.index');
 
@@ -69,7 +69,7 @@ class RoleController extends Controller
     {
         $permissions = $this->permissionRepository->index();
 
-        $role = Role::with('permissions')->where('id', $id)->first();
+        $role = $this->roleRepository->show($id);
 
         $rolePermissions = $role->permissions->pluck('id')->toArray();
 
@@ -80,21 +80,11 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(RoleUpdateRequest $request, string $id)
     {
-        $request->validate([
-            'name' => 'required|unique:roles,name,'.$id,
-            'permissions' => 'nullable|array',
-            'permissions.*' => 'exists:permissions,id',
-        ]);
+        $validatedData = $request->validated();
 
-        $role = Role::where('id', $id)->first();
-
-        $role->update([
-            'name' => $request->name,
-        ]);
-
-        $role->permissions()->sync($request->permissions);
+        $this->roleRepository->update($validatedData, $id);
 
         return redirect()->route('roles.index');
     }
@@ -104,9 +94,7 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        $role = Role::where('id', $id)->first();
-
-        $role->delete();
+        $this->roleRepository->destroy($id);
 
         return redirect()->route('roles.index');
     }
