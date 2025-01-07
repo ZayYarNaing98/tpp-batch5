@@ -6,6 +6,8 @@ use Exception;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\API\BaseController;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
@@ -37,6 +39,35 @@ class AuthController extends BaseController
 
         } catch(Exception $e) {
             return $this->error($e->getMessage() ? $e->getMessage() : "Something went wrong!", null, $e->getCode() ? $e->getCode() : 500);
+        }
+    }
+
+    public function register(Request $request)
+    {
+        try{
+            $validateUser = Validator::make($request->all(), [
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email,except,id',
+                'password' => 'required',
+                'phone' => 'required',
+                'address' => 'required',
+            ]);
+
+            if($validateUser->fails()) {
+                return $this->error('Validation Error!', $validateUser->errors(), 422);
+            }
+
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'phone' => $request->phone,
+                'address' => $request->address,
+            ]);
+
+            return $this->success($user, "User Created Successfully!", 201);
+        }catch(Exception $e) {
+            return $this->error($e->getMessage() ? $e->getMessage() : "Internal Server Error", null, $e->getCode() ? $e->getCode() : 500);
         }
     }
 }
