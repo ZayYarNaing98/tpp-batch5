@@ -8,15 +8,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\API\BaseController;
+use App\Repositories\Category\CategoryRepositoryInterface;
 
 class CategoryController extends BaseController
 {
     /**
      * Display a listing of the resource.
      */
+    protected $categoryRepository;
+    public function __construct(CategoryRepositoryInterface $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
+    }
+
     public function index()
     {
-        $categories = Category::get();
+        $categories = $this->categoryRepository->index();
 
         $data = CategoryResource::collection($categories);
 
@@ -28,7 +35,6 @@ class CategoryController extends BaseController
      */
     public function store(Request $request)
     {
-        // dd($request);
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'image' => 'required|image',
