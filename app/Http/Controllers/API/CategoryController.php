@@ -16,9 +16,15 @@ class CategoryController extends BaseController
      * Display a listing of the resource.
      */
     protected $categoryRepository;
+
     public function __construct(CategoryRepositoryInterface $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
+
+        $this->middleware('permission:categoryList', ['only' => ['index']]);
+        $this->middleware('permission:categoryCreate', ['only' => ['store']]);
+        $this->middleware('permission:categoryEdit', ['only' => ['update']]);
+        $this->middleware('permission:categoryDelete', ['only' => ['destroy']]);
     }
 
     public function index()

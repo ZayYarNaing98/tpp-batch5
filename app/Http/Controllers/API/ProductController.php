@@ -13,6 +13,16 @@ class ProductController extends BaseController
     /**
      * Display a listing of the resource.
      */
+
+
+    public function __construct()
+    {
+        $this->middleware('permission:productList' ,['only' => ['index']]);
+        $this->middleware('permission:productCreate', ['only' => ['store']]);
+        $this->middleware('permission:productEdit', ['only' => ['update']]);
+        $this->middleware('permission:productDelete', ['only' => ['destroy']]);
+    }
+
     public function index()
     {
         $products = Product::with('category')->get();
